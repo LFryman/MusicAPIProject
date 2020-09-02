@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using System.Web.Helpers;
 
 namespace MusicAPIProject.Models
 {
@@ -24,12 +27,30 @@ namespace MusicAPIProject.Models
             return client;
         }
 
-        public async Task<List<Artist>> GetArtist()
-        {
-            var client = GetClient();
+        public async Task<MusicObject> GetArtist()
+        { 
+            HttpClient client = GetClient();
             var response = await client.GetAsync($"/search?q=eminem");
-            var album = await response.Content.ReadAsAsync<List<Artist>>();
-            return album;
+            string jasonData = await response.Content.ReadAsStringAsync(); 
+            //var album = await response.Content.ReadAsAsync<Artist>();
+            MusicObject artist = JsonConvert.DeserializeObject<MusicObject>(jasonData);
+            return artist;
         }
+
+        //public async Task<List<Artist>> GetArtist()
+        //{
+        //    //var client = GetClient();
+        //    //var response = await client.GetAsync($"/search?q=eminem");
+        //    //JObject json = JObject.Parse(client);
+        //    //var artist = JsonConvert.DeserializeObject<Artist>(json.ToList());
+
+        //    var artist = GetClient();
+        //    string response = await artist.GetAsync($"/search?q=eminem");
+        //    JObject json = JObject.Parse(response);
+        //    Artist a = JsonConvert.DeserializeObject<Artist>(json.ToString());
+        //    return a; 
+
+
+        //}
     }
 }
