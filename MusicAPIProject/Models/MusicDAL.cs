@@ -32,25 +32,10 @@ namespace MusicAPIProject.Models
             HttpClient client = GetClient();
             var response = await client.GetAsync($"/search?q=eminem");
             string jasonData = await response.Content.ReadAsStringAsync(); 
-            //var album = await response.Content.ReadAsAsync<Artist>();
             MusicObject artist = JsonConvert.DeserializeObject<MusicObject>(jasonData);
             return artist;
         }
-
-        //public async Task<List<Artist>> GetArtist()
-        //{
-        //    //var client = GetClient();
-        //    //var response = await client.GetAsync($"/search?q=eminem");
-        //    //JObject json = JObject.Parse(client);
-        //    //var artist = JsonConvert.DeserializeObject<Artist>(json.ToList());
-
-        //    var artist = GetClient();
-        //    string response = await artist.GetAsync($"/search?q=eminem");
-        //    JObject json = JObject.Parse(response);
-        //    Artist a = JsonConvert.DeserializeObject<Artist>(json.ToString());
-        //    return a; 
-
-
-        //}
+        //building GetAlbum 
+        //same var
     }
 }

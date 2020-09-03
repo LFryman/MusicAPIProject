@@ -24,11 +24,12 @@ namespace MusicAPIProject.Controllers
             var album = await _musicDAL.GetArtist(); 
             return View(album); 
         }
-        //public IActionResult Index()
-        //{
-        //    var AlbumList = _musicDAL.ToList();
-        //    return View(AlbumList);
-        //}
+        
+        public async Task<IActionResult> SearchResult()
+        {
+            return View(); 
+        }
 
+        public 
     }
 }
