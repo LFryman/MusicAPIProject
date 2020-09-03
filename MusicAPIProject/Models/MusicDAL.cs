@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -35,6 +36,6 @@ namespace MusicAPIProject.Models
             MusicObject artist = JsonConvert.DeserializeObject<MusicObject>(jasonData);
             return artist;
         }
-        
+
     }
 }

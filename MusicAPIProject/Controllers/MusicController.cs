@@ -21,8 +21,7 @@ namespace MusicAPIProject.Controllers
 
         public IActionResult MusicIndex()
         {
-            //var album = await _musicDAL.GetArtist(); 
-            //return View(album);
+
             return View();
         }
 
@@ -48,7 +47,6 @@ namespace MusicAPIProject.Controllers
                 return RedirectToAction("MusicIndex");
             }
         }
-   
 
     }
 }
