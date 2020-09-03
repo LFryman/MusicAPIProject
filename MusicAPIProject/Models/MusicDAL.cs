@@ -37,5 +37,14 @@ namespace MusicAPIProject.Models
             return artist;
         }
 
+        public async Task<Album> GetAlbum(int id)
+        {
+            HttpClient client = GetClient();
+            var response = await client.GetAsync($"/album/{id}");
+            string jasonData = await response.Content.ReadAsStringAsync();
+            Album music = JsonConvert.DeserializeObject<Album>(jasonData);
+            return music;
+        }
+
     }
 }

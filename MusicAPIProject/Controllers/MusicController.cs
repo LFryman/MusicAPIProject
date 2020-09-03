@@ -13,11 +13,11 @@ namespace MusicAPIProject.Controllers
     {
         private readonly MusicDAL _musicDAL;
         private readonly string _apiKey;
-        private readonly MusicDBContext _musicDb; 
+        private readonly MusicDBContext _musicDb;
 
         public MusicController(IConfiguration configuration, MusicDBContext musicDB)
         {
-            _musicDb = musicDB; 
+            _musicDb = musicDB;
             _apiKey = configuration.GetSection("ApiKeys")["MusicAPIKey"];
             _musicDAL = new MusicDAL(_apiKey);
         }
@@ -33,7 +33,7 @@ namespace MusicAPIProject.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SearchResult(string userInput, string searchtype) 
+        public async Task<IActionResult> SearchResult(string userInput, string searchtype)
 
         {
             if (searchtype == "artist")
@@ -52,25 +52,56 @@ namespace MusicAPIProject.Controllers
             }
         }
 
-        //public IActionResult AddAlbumToList()
-        //{
-        //    string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //    List<Album> faveAlbumList = _musicDAL.GetAlbum.Where(x => x.UserID == id).ToList();
-        //    return View(faveAlbumList);
-        //}
+        public async Task<IActionResult> DisplayAlbumFavorites()
+        {
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<AlbumT> savedFaves = _musicDb.AlbumT.Where(x => x.UserId == id).ToList();
+            List<Album> favoritesList = new List<Album>();
+
+            foreach (AlbumT a in savedFaves)
+            {
+                var search = await _musicDAL.GetAlbum(a.Apiid);
+                favoritesList.Add(search);
+            }
+            return View(favoritesList);
+        }
 
         public IActionResult SaveFavoriteAlbum(int id)
         {
-            var foundAlbum = _musicDb.AlbumT.Where(x => x.Apiid == id).First();
-            if (foundAlbum == null)
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            AlbumT foundAlbum = new AlbumT();
+            try
             {
+                foundAlbum = _musicDb.AlbumT.Where(x => x.Apiid == id).First();
+            }
+            catch
+            {
+                foundAlbum.UserId = userId;
+                foundAlbum.Apiid = id;
                 _musicDb.AlbumT.Add(foundAlbum);
                 _musicDb.SaveChanges();
-                return View("MusicIndex"); 
+                return RedirectToAction("DisplayAlbumFavorites");
             }
-            else
+            return View("MusicIndex");
+
+        }
+        public IActionResult DeleteAlbum(int id)
+        {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            AlbumT foundAlbum = new AlbumT();
+            try
             {
-                return View("MusicIndex"); 
+                foundAlbum.UserId = userId;
+                foundAlbum.Apiid = id;
+                foundAlbum = _musicDb.AlbumT.Where(x => x.Apiid == id).First();
+                _musicDb.AlbumT.Remove(foundAlbum);
+                _musicDb.SaveChanges();
+                return RedirectToAction("DisplayAlbumFavorites");
+            }
+            catch
+            {
+                return RedirectToAction("DisplayAlbumFavorites");
             }
         }
     }
