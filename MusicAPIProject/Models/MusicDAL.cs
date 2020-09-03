@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using System.Web.Helpers;
 
 namespace MusicAPIProject.Models
 {
@@ -20,29 +20,21 @@ namespace MusicAPIProject.Models
             _apikey = apiKey;
         }
 
-        public string GetClient()
+        public HttpClient GetClient()
         {
-
-            //Sets up our request 
-            HttpWebRequest request = WebRequest.CreateHttp($"https://deezerdevs-deezer.p.rapidapi.com");
-
-            //This sends to the remote server and gets a response
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            StreamReader rd = new StreamReader(response.GetResponseStream());
-
-            string output = rd.ReadToEnd();
-
-            return output;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://deezerdevs-deezer.p.rapidapi.com");
+            client.DefaultRequestHeaders.Add("x-rapidapi-key", _apikey);
+            return client;
         }
 
-        public  Task<List<Artist>> GetArtist()
-        {
-            string artist = GetClient();
-
-            JObject json = JObject.Parse(artist);
-            Artist person = JsonConvert.DeserializeObject<Artist>(json.ToString());
-            return GetArtist();
-        }    
+        public async Task<MusicObject> GetArtist(string userInput)
+        { 
+            HttpClient client = GetClient();
+            var response = await client.GetAsync($"/search?q={userInput}");
+            string jasonData = await response.Content.ReadAsStringAsync(); 
+            MusicObject artist = JsonConvert.DeserializeObject<MusicObject>(jasonData);
+            return artist;
+        }
     }
 }
