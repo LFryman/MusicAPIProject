@@ -1,0 +1,24 @@
+﻿@model List<Artist>
+<h3>These are you favorite artists!</h3>
+
+<table>
+    <tr>
+        <th>Artist</th>
+    </tr>
+
+    @foreach (Artist artist in Model)
+    {
+        <tr>
+            <td>@artist.name</td>
+        </tr>
+    }
+</table>
+
+<form asp-action="SearchResult" method="post">
+    <input type="text" name="name" placeholder="Search Again" />
+    <input type="submit" />
+</form>
+<form asp-action="DeleteArtist" method="delete">
+    <input type="text" name="name" placeholder="Artist Name" />
+    <input type="submit" />
+</form>

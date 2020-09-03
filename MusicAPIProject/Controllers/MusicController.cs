@@ -103,6 +103,38 @@ namespace MusicAPIProject.Controllers
             {
                 return RedirectToAction("DisplayAlbumFavorites");
             }
+            
         }
+        public IActionResult SaveFavoriteArtist(int id)
+        {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ArtistT foundArtist = new ArtistT();
+            try
+            {
+                foundArtist = _musicDb.ArtistT.Where(x => x.Apiid == id).First();
+            }
+            catch
+            {
+                foundArtist.UserId = userId;
+                foundArtist.Apiid = id;
+                _musicDb.ArtistT.Add(foundArtist);
+                _musicDb.SaveChanges();
+                return RedirectToAction("DisplayArtistFavorites");
+            }
+            return View("MusicIndex");
+        }
+        public IActionResult DeleteArtist(int id)
+        {
+
+            var foundArtist = _musicDb.ArtistT.Find(id);
+            if (foundArtist != null)
+            {
+                _musicDb.ArtistT.Remove(foundArtist);
+                _musicDb.SaveChanges();
+                return RedirectToAction(nameof(MusicIndex));
+            }
+            return RedirectToAction(nameof(MusicIndex));
+        }
+
     }
 }
