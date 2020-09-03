@@ -27,30 +27,19 @@ namespace MusicAPIProject.Models
             return client;
         }
 
-        public async Task<MusicObject> GetArtist()
+        public async Task<MusicObject> GetArtist(string userInput)
         { 
             HttpClient client = GetClient();
-            var response = await client.GetAsync($"/search?q=eminem");
+            var response = await client.GetAsync($"/search?q={userInput}");
             string jasonData = await response.Content.ReadAsStringAsync(); 
-            //var album = await response.Content.ReadAsAsync<Artist>();
             MusicObject artist = JsonConvert.DeserializeObject<MusicObject>(jasonData);
             return artist;
         }
 
-        //public async Task<List<Artist>> GetArtist()
-        //{
-        //    //var client = GetClient();
-        //    //var response = await client.GetAsync($"/search?q=eminem");
-        //    //JObject json = JObject.Parse(client);
-        //    //var artist = JsonConvert.DeserializeObject<Artist>(json.ToList());
-
-        //    var artist = GetClient();
-        //    string response = await artist.GetAsync($"/search?q=eminem");
-        //    JObject json = JObject.Parse(response);
-        //    Artist a = JsonConvert.DeserializeObject<Artist>(json.ToString());
-        //    return a; 
-
-
-        //}
+        //building GetAlbum GetWhatever
+        //same var response call in GetArtist to get id number
+        //use specific endpoint URL things to diffentiate betweeen album/artist/track
+        //diff option: return different views
+        
     }
 }

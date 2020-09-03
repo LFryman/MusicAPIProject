@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Search Result";
+}
+@model MusicObject
+
+
+@*if viewbag contains, else if else if, etc*@ 
+<h5>Search Results</h5>
+
+<div>
+
+    <img src="@Model.data[0].artist.picture_small" />
+    <br />
+    <strong><p>@Model.data[0].artist.name</p></strong>
+    @for (int a = 0; a <= 5; a++)
+    {
+        <img src="@Model.data[a].album.cover_small" />
+        <br />
+        <p>@Model.data[a].album.title</p>
+        <br />
+
+    }
+    <br />
+    <br />
+
+
+    <a href="../Music/Search">Search again?</a>
+</div>

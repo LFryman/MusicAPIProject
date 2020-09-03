@@ -19,10 +19,23 @@ namespace MusicAPIProject.Controllers
             _musicDAL = new MusicDAL(_apiKey);
         }
 
-        public async Task<IActionResult> MusicIndex()
+        public IActionResult MusicIndex()
         {
-            var album = await _musicDAL.GetArtist(); 
-            return View(album); 
+            //var album = await _musicDAL.GetArtist(); 
+            //return View(album);
+            return View();
+        }
+
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> SearchResult(string userInput) //also drop down selection
+        {
+            var search = await _musicDAL.GetArtist(userInput);
+            //viewbag with drop down input
+            return View(search);
         }
         //public IActionResult Index()
         //{
