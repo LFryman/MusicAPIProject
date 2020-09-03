@@ -27,7 +27,7 @@ namespace MusicAPIProject.Models
             return client;
         }
 
-        public async Task<MusicObject> GetArtist(string userInput)
+        public async Task<MusicObject> GetInfo(string userInput)
         { 
             HttpClient client = GetClient();
             var response = await client.GetAsync($"/search?q={userInput}");

@@ -12,6 +12,7 @@ using MusicAPIProject.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MusicAPIProject.Models;
 
 namespace MusicAPIProject
 {
@@ -27,6 +28,8 @@ namespace MusicAPIProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = "Server=.\\sqlexpress;Database=MusicDB;Trusted_Connection=True;ConnectRetryCount=0;";
+            services.AddDbContext<MusicDBContext>(options => options.UseSqlServer(connection));
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
