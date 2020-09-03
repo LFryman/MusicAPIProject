@@ -34,7 +34,6 @@ namespace MusicAPIProject.Models
         public string link { get; set; }
         public string picture_small { get; set; }
         public string tracklist { get; set; }
-        public string type { get; set; }
     }
 
     public class Album
@@ -43,7 +42,6 @@ namespace MusicAPIProject.Models
         public string title { get; set; }
         public string cover_small { get; set; }
         public string tracklist { get; set; }
-        public string type { get; set; }
     }
 
 

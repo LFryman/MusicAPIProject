@@ -24,8 +24,7 @@ namespace MusicAPIProject.Controllers
 
         public IActionResult MusicIndex()
         {
-            //var album = await _musicDAL.GetArtist(); 
-            //return View(album);
+
             return View();
         }
 
@@ -34,16 +33,23 @@ namespace MusicAPIProject.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SearchResult(string userInput) //also drop down selection
+        public async Task<IActionResult> SearchResult(string userInput, string searchtype) 
+
         {
-            var search = await _musicDAL.GetInfo(userInput);
-            //viewbag with drop down input
-            return View(search);
-        }
-        
-        public async Task<IActionResult> SearchResult()
-        {
-            return View(); 
+            if (searchtype == "artist")
+            {
+                var search = await _musicDAL.GetInfo(userInput);
+                return View("SearchResultArtist", search);
+            }
+            else if (searchtype == "album")
+            {
+                var search = await _musicDAL.GetInfo(userInput);
+                return View("SearchResultAlbum", search);
+            }
+            else
+            {
+                return RedirectToAction("MusicIndex");
+            }
         }
 
         //public IActionResult AddAlbumToList()

@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Search Result Album";
+}
+@model MusicObject
+
+<h5>Search Results</h5>
+
+<div>
+    <h3>@Model.data[0].album.title</h3>
+    <img src="@Model.data[0].album.cover_small" />
+
+    <br />
+    <p>Deezer listed artist:</p>
+    <br />
+    <strong>@Model.data[0].artist.name</strong>
+    <br />
+    <a href="../Music/FAVORITE ALBUM METHOD?id=@Model.data[0].album.id" class="btn btn-primary btn-sm btn btn-outline-success">
+        Add to Favorite Albums
+    </a>
+    <br />
+    <br />
+
+
+    <a href="../Music/Search">Search again?</a>
+</div>
