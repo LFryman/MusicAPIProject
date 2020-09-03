@@ -2,27 +2,4 @@
     ViewData["Title"] = "Search Result";
 }
 
-<div>
-    @for (int i = 0; i <= 10; i++)
-    {
-        <p>@Model.data[0].artist.name</p>
-        <img src="@Model.data[0].artist.picture_small" />
-        <br />
-        for (int t = 0; t <= 5; t++)
-        {
-            <p>@Model.data[t].album.title</p>
-            <br />
-        }
-    }
-</div>
 
-<table>
-    <tbody>
-        @foreach (var item in Model)
-        {
-<tr>
-    <td>@item.Name</td>
-    <td>@item.LastAccessTime</td>
-</tr>}
-    </tbody>
-</table>

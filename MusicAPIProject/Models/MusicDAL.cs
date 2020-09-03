@@ -35,16 +35,16 @@ namespace MusicAPIProject.Models
             MusicObject artist = JsonConvert.DeserializeObject<MusicObject>(jasonData);
             return artist;
         }
-<<<<<<< HEAD
+
         //building GetAlbum 
         //same var
-=======
+
 
         //building GetAlbum GetWhatever
         //same var response call in GetArtist to get id number
         //use specific endpoint URL things to diffentiate betweeen album/artist/track
         //diff option: return different views
         
->>>>>>> 2c7561560ae900b667337685fa0ed5763a3b9ae2
+
     }
 }
