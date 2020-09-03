@@ -31,17 +31,24 @@ namespace MusicAPIProject.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SearchResult(string userInput) //also drop down selection
+        public async Task<IActionResult> SearchResult(string userInput, string searchtype) 
         {
-            var search = await _musicDAL.GetArtist(userInput);
-            //viewbag with drop down input
-            return View(search);
+            if (searchtype == "artist")
+            {
+                var search = await _musicDAL.GetInfo(userInput);
+                return View("SearchResultArtist", search);
+            }
+            else if (searchtype == "album")
+            {
+                var search = await _musicDAL.GetInfo(userInput);
+                return View("SearchResultAlbum", search);
+            }
+            else
+            {
+                return RedirectToAction("MusicIndex");
+            }
         }
-        //public IActionResult Index()
-        //{
-        //    var AlbumList = _musicDAL.ToList();
-        //    return View(AlbumList);
-        //}
+   
 
     }
 }
