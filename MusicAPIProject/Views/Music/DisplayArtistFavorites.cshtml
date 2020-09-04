@@ -1,24 +1,27 @@
 ﻿@model List<Artist>
 <h3>These are you favorite artists!</h3>
 
-<table>
-    <tr>
+<table class="table table-bordered">
+
+    <tr class="d-table-row">
         <th>Artist</th>
+        <th>Picture</th>
     </tr>
 
     @foreach (Artist artist in Model)
     {
         <tr>
             <td>@artist.name</td>
+            <td><img src="@artist.picture_small" /></td>
+
+            <td class="btn-outline-danger">
+                <a href="../Music/DeleteArtist?id=@artist.id">Delete this Artist</a>
+            </td>
         </tr>
     }
 </table>
 
-<form asp-action="SearchResult" method="post">
-    <input type="text" name="name" placeholder="Search Again" />
-    <input type="submit" />
+<form asp-action="searchResult" method="post">
+    <a href="../Music/Search">Search Again</a>
 </form>
-<form asp-action="DeleteArtist" method="delete">
-    <input type="text" name="name" placeholder="Artist Name" />
-    <input type="submit" />
-</form>
+
