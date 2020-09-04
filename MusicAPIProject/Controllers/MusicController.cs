@@ -143,18 +143,19 @@ namespace MusicAPIProject.Controllers
         public IActionResult DeleteArtist(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var foundArtist = _musicDb.ArtistT.Find(id);
+            ArtistT foundArtist = new ArtistT();
             try 
             {
                 foundArtist.UserId = userId;
-                foundArtist.Apiid = id; 
+                foundArtist.Apiid = id;
+                foundArtist = _musicDb.ArtistT.Where(x => x.Apiid == id).First();
                 _musicDb.ArtistT.Remove(foundArtist);
                 _musicDb.SaveChanges();
-                return RedirectToAction(nameof(MusicIndex));
+                return RedirectToAction(nameof(DisplayArtistFavorites));
             }
             catch
             {
-                return RedirectToAction(nameof(MusicIndex));
+                return RedirectToAction(nameof(DisplayArtistFavorites));
             }
             
         }
