@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MusicAPIProject.Models;
@@ -51,7 +52,7 @@ namespace MusicAPIProject.Controllers
                 return RedirectToAction("MusicIndex");
             }
         }
-
+        [Authorize]
         public async Task<IActionResult> DisplayAlbumFavorites()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -65,7 +66,7 @@ namespace MusicAPIProject.Controllers
             }
             return View(favoritesList);
         }
-
+        [Authorize]
         public IActionResult SaveFavoriteAlbum(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -86,6 +87,7 @@ namespace MusicAPIProject.Controllers
             return View("MusicIndex");
 
         }
+        [Authorize]
         public IActionResult DeleteAlbum(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -104,6 +106,7 @@ namespace MusicAPIProject.Controllers
                 return RedirectToAction("DisplayAlbumFavorites");
             }
         }
+        [Authorize]
         public async Task<IActionResult> DisplayArtistFavorites()
         {
             string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -117,6 +120,7 @@ namespace MusicAPIProject.Controllers
             }
             return View(favoritesList); 
         }
+        [Authorize]
         public IActionResult SaveFavoriteArtist(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -135,6 +139,7 @@ namespace MusicAPIProject.Controllers
             }
             return View("MusicIndex");
         }
+        [Authorize]
         public IActionResult DeleteArtist(int id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
