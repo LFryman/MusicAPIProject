@@ -103,7 +103,19 @@ namespace MusicAPIProject.Controllers
             {
                 return RedirectToAction("DisplayAlbumFavorites");
             }
-            
+        }
+        public async Task<IActionResult> DisplayArtistFavorites()
+        {
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<ArtistT> savedFaves = _musicDb.ArtistT.Where(x => x.UserId == id).ToList();
+            List<Artist> favoritesList = new List<Artist>(); 
+
+            foreach (ArtistT a in savedFaves)
+            {
+                var search = await _musicDAL.GetArtist(a.Apiid); 
+                favoritesList.Add(search);
+            }
+            return View(favoritesList); 
         }
         public IActionResult SaveFavoriteArtist(int id)
         {
@@ -125,15 +137,21 @@ namespace MusicAPIProject.Controllers
         }
         public IActionResult DeleteArtist(int id)
         {
-
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var foundArtist = _musicDb.ArtistT.Find(id);
-            if (foundArtist != null)
+            try 
             {
+                foundArtist.UserId = userId;
+                foundArtist.Apiid = id; 
                 _musicDb.ArtistT.Remove(foundArtist);
                 _musicDb.SaveChanges();
                 return RedirectToAction(nameof(MusicIndex));
             }
-            return RedirectToAction(nameof(MusicIndex));
+            catch
+            {
+                return RedirectToAction(nameof(MusicIndex));
+            }
+            
         }
 
     }
