@@ -1,4 +1,8 @@
-﻿@model List<Artist>
+﻿@{
+    ViewData["Title"] = "Artist Favorites";
+}
+
+@model List<Artist>
 <h3>These are you favorite artists!</h3>
 
 <table class="table table-bordered">
@@ -12,16 +16,14 @@
     {
         <tr>
             <td>@artist.name</td>
-            <td><img src="@artist.picture_small" /></td>
-
+            <td><img src="@artist.picture_small" /> </td>
             <td class="btn-outline-danger">
                 <a href="../Music/DeleteArtist?id=@artist.id">Delete this Artist</a>
-            </td>
         </tr>
     }
 </table>
 
-<form asp-action="searchResult" method="post">
-    <a href="../Music/Search">Search Again</a>
+<form asp-action="SearchResult" method="post">
+    <a href="../Music/Search">Search Again?</a> 
 </form>
 
